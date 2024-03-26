@@ -1,0 +1,6 @@
+requests==2.31.0
+edge-tts==6.1.10
+playsound==1.2.2
+websocket==0.2.1
+websocket-client==1.7.0
+PySimpleGUI==5.0.3
