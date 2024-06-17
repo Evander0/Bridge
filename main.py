@@ -1,24 +1,21 @@
-import requests
-import json
-import edge_tts
-import asyncio
-import websocket
-import tkinter
 import time
-import threading
-from playsound import playsound
+
+import asyncio
+import edge_tts
+import json
 import os
+import requests
+import threading
+import tkinter
+import websocket
+from playsound import playsound
 
 Chat_API = 'http://127.0.0.1:19327/v1/chat/completions'
 Live2D_API = 'ws://127.0.0.1:10086/api'
 enable_Live2D = True
 enable_gui = True
 prompt_index = [
-    "你是一个乐于助人的助手。",
-
-    "屑猫还没写完",
-
-    ""
+    "你是一个乐于助人的助手。"
 ]
 system_prompt = prompt_index[0]
 voice_list = [
@@ -29,8 +26,8 @@ voice_list = [
     'zh-CN-YunxiaNeural',  # 4 Male
     'zh-CN-YunyangNeural'  # 5 Male
 ]
-voice = voice_list[3]
-enable_tts = False
+voice = voice_list[1]
+enable_tts = True
 log_path = 'log/'
 log_file = 'chat.log'
 audio_file = 'tmp.mp3'
@@ -40,7 +37,7 @@ def post_msg():
     global thread_response_alive
     json_data = json.dumps({
         "messages": log,
-        "max_tokens": 128,
+        "max_tokens": 50,
         "temperature": 0.8,
         "num_beams": 4,
         "top_k": 40,
@@ -123,9 +120,9 @@ def enter_read(event):
             gui_input.delete(0, tkinter.END)
 
 
-def on_click(event):
-    start_x = event.x
-    start_y = event.y
+# def on_click(event):
+#     start_x = event.x
+#     start_y = event.y
 
 
 def on_move(event):
@@ -209,7 +206,7 @@ if enable_gui:
     gui_move.pack(side=tkinter.LEFT)
     gui_input.pack(side=tkinter.RIGHT)
     window.bind('<Motion>', visibility)
-    gui_move.bind('<Button-1>', on_click)
+    gui_move.bind('<Button-1>', on_move)
     gui_move.bind('<B1-Motion>', on_move)
     gui_input.bind("<Return>", enter_read)
     window.mainloop()
