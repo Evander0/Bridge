@@ -1,4 +1,4 @@
-requests==2.31.0
+requests==2.32.2
 edge-tts==6.1.10
 playsound==1.2.2
 websocket==0.2.1
