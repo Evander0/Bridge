@@ -5,4 +5,3 @@ websocket==0.2.1
 websocket-client==1.7.0
 PySimpleGUI==5.0.3
 pyaudio
-gpt4all
