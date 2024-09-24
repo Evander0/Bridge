@@ -39,7 +39,7 @@ voice_list = [
 ]
 speaker = "澜星"
 GPT_soVITS_API = "http://127.0.0.1:9880"
-tts_engine = "GPT_soVITS_v2"  # GPT_soVITS GPT_soVITS_v2 Edge_tts
+tts_engine = "GPT_soVITS"  # GPT_soVITS Edge_tts
 enable_tts = False
 
 
@@ -89,20 +89,6 @@ def tts(text):
             os.remove(log_path + audio_file)
             thread_tts_alive = False
         case "GPT_soVITS":
-            import pyaudio
-            url = f"{GPT_soVITS_API}/tts?character={speaker}&text={text}"
-            p = pyaudio.PyAudio()
-            stream = p.open(format=p.get_format_from_width(2),
-                            channels=1,
-                            rate=32000,
-                            output=True)
-            response = requests.get(url, stream=True)
-            for data in response.iter_content(chunk_size=1024):
-                stream.write(data)
-            stream.stop_stream()
-            stream.close()
-            p.terminate()
-        case "GPT_soVITS_v2":
             import pyaudio
             url = f"{GPT_soVITS_API}?text={text}&text_language=zh&cut_punc=，。"
             p = pyaudio.PyAudio()
