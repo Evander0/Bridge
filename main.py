@@ -7,10 +7,10 @@ import threading
 import websocket
 
 Backend_API = ''
-Backend = "ollama"  # OpenAI ollama TTS_test
+Backend = "OpenAI"  # OpenAI ollama TTS_test
 model = ""  # For ollama
 
-Live2D_API = ''
+Live2D_API = 'ws://127.0.0.1:10086/api'
 enable_Live2D = False
 enable_gui = False
 prompt_index = [
@@ -30,8 +30,8 @@ voice_list = [
     'zh-CN-YunyangNeural'  # 5 Male
 ]
 speaker = "zh-CN-XiaoyiNeural"
-GPT_soVITS_API = "Edge_tts"
-tts_engine = "GPT_soVITS"  # GPT_soVITS Edge_tts
+GPT_soVITS_API = ""
+tts_engine = "Edge_tts"  # GPT_soVITS Edge_tts
 enable_tts = False
 
 
@@ -71,6 +71,9 @@ def post_msg():
 
 def tts(text):
     from playsound import playsound
+    import re
+    text.replace('(', '（').replace(')', '）')
+    text = re.sub(r"（.*?）", '', text)
     match tts_engine:
         case "Edge_tts":
             import asyncio
@@ -82,7 +85,7 @@ def tts(text):
             thread_tts_alive = False
         case "GPT_soVITS":
             import pyaudio
-            url = f"{GPT_soVITS_API}?text={text}&text_language=zh&cut_punc=，。"
+            url = f"{GPT_soVITS_API}?text={text}&text_language=zh"
             p = pyaudio.PyAudio()
             stream = p.open(format=p.get_format_from_width(2),
                             channels=1,
@@ -198,7 +201,7 @@ def command(input):
                 enable_tts = False
                 output("TTS已关闭")
             elif int(command_list[2]) in range(0, 5):
-                voice = voice_list[int(command_list[2])]
+                voice = command_list[2]
                 output("TTS音源已设置为：" + voice)
             else:
                 output("未知TTS指令")
